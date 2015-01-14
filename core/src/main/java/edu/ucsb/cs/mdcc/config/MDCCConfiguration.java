@@ -23,12 +23,12 @@ public class MDCCConfiguration {
     private int myId = 0;
 	
 	private MDCCConfiguration(Properties properties) {
-        String myIdValue = System.getProperty("mdcc.my.id");
+        String myIdValue = properties.getProperty("mdcc.my.id");
         if (myIdValue != null) {
             myId = Integer.parseInt(myIdValue);
         }
 
-		File zkDir = new File(System.getProperty("mdcc.zk.dir"));
+		File zkDir = new File(properties.getProperty("mdcc.zk.dir"));
         File myIdFile = new File(zkDir, "myid");
         try {
             if (log.isDebugEnabled()) {

@@ -17,7 +17,8 @@ public class StorageNode extends Agent {
 
     private static final Log log = LogFactory.getLog(StorageNode.class);
 
-    private Database db = new CachedHBase();
+    //private Database db = new CachedHBase();
+    private Database db = new InMemoryDatabase();
 	private MDCCConfiguration config;
 
     private MDCCCommunicator communicator;

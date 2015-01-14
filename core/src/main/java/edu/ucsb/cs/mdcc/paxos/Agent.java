@@ -4,7 +4,7 @@ import edu.ucsb.cs.mdcc.MDCCException;
 
 import edu.ucsb.cs.mdcc.config.MDCCConfiguration;
 import edu.ucsb.cs.mdcc.config.Member;
-import edu.ucsb.cs.mdcc.util.HBaseServer;
+//import edu.ucsb.cs.mdcc.util.HBaseServer;
 import edu.ucsb.cs.mdcc.util.Utils;
 import edu.ucsb.cs.mdcc.util.ZKServer;
 import org.apache.commons.logging.Log;
@@ -31,17 +31,17 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
     private static final String ELECTION_NODE = "/ELECTION_";
 
     private ExecutorService zkService;
-    private HBaseServer hbaseServer;
+    //private HBaseServer hbaseServer;
     private ZooKeeper zkClient;
     private final Map<String,Member> leaders = new ConcurrentHashMap<String, Member>();
 
     public void start() {
         Properties properties = new Properties();
         String configPath = System.getProperty("mdcc.config.dir", "conf");
-        String dataPath = System.getProperty("mdcc.zk.dir", "zk");
         File configFile = new File(configPath, "zk.properties");
         try {
             properties.load(new FileInputStream(configFile));
+            String dataPath = properties.getProperty("mdcc.zk.dir", "zk");
             int myId = MDCCConfiguration.getConfiguration().getMyId();
             Utils.incrementPort(properties, "clientPort", myId);
 
@@ -70,7 +70,7 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
             handleException("Error initializing the ZooKeeper client", e);
         }
 
-        hbaseServer = new HBaseServer();
+        /*hbaseServer = new HBaseServer();
         hbaseServer.start();
         while (!hbaseServer.isInitialized()) {
             log.debug("Waiting for HBase server to initialize");
@@ -78,12 +78,12 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
                 Thread.sleep(1000);
             } catch (InterruptedException ignored) {
             }
-        }
+        }*/
     }
 
     public void stop() {
         zkService.shutdownNow();
-        hbaseServer.stop();
+        //hbaseServer.stop();
         System.out.println("Program terminated");
     }
 
