@@ -141,7 +141,7 @@ public class MDCCCommunicator {
             for (edu.ucsb.cs.mdcc.paxos.Accept accept : fastAccepts) {
             	tAccepts.add(toThriftAccept(accept));
             }
-            client.bulkAccept( tAccepts, callback);
+            client.bulkAccept(tAccepts, callback);
         } catch (Exception e) {
             if (callback != null) {
                 callback.onError(e);

@@ -8,10 +8,12 @@ import edu.ucsb.cs.mdcc.config.MDCCConfiguration;
 import edu.ucsb.cs.mdcc.config.Member;
 import edu.ucsb.cs.mdcc.dao.*;
 import edu.ucsb.cs.mdcc.messaging.MDCCCommunicator;
-
 import edu.ucsb.cs.mdcc.messaging.ReadValue;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class StorageNode extends Agent {
 
@@ -36,7 +38,7 @@ public class StorageNode extends Agent {
         communicator.startListener(this, port);
 
         //now we talk to everyone else to do recovery
-        runRecoveryPhase();
+//        runRecoveryPhase();
     }
 
     private void runRecoveryPhase() {
@@ -208,6 +210,7 @@ public class StorageNode extends Agent {
     }
 
 	public static void main(String[] args) {
+//		Logger.getRootLogger().setLevel(Level.DEBUG);
         final StorageNode storageNode = new StorageNode();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override

@@ -28,16 +28,16 @@ public class MDCCConfiguration {
             myId = Integer.parseInt(myIdValue);
         }
 
-		File zkDir = new File(properties.getProperty("mdcc.zk.dir"));
-        File myIdFile = new File(zkDir, "myid");
-        try {
-            if (log.isDebugEnabled()) {
-                log.debug("Writing out my id value to: " + myId);
-            }
-            FileUtils.write(myIdFile, String.valueOf(myId));
-        } catch (IOException e) {
-            throw new MDCCException("Unable to write the ZK myid file", e);
-        }
+//		File zkDir = new File(properties.getProperty("mdcc.zk.dir"));
+//        File myIdFile = new File(zkDir, "myid");
+//        try {
+//            if (log.isDebugEnabled()) {
+//                log.debug("Writing out my id value to: " + myId);
+//            }
+//            FileUtils.write(myIdFile, String.valueOf(myId));
+//        } catch (IOException e) {
+//            throw new MDCCException("Unable to write the ZK myid file", e);
+//        }
 		
 		List<Member> allMembers = new ArrayList<Member>();
 		for (String property : properties.stringPropertyNames()) {

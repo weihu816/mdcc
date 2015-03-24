@@ -4,6 +4,16 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.thrift.server.TNonblockingServer;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.transport.TNonblockingServerSocket;
+import org.apache.thrift.transport.TNonblockingServerTransport;
+import org.apache.thrift.transport.TTransportException;
+
 import edu.ucsb.cs.mdcc.Option;
 import edu.ucsb.cs.mdcc.Result;
 import edu.ucsb.cs.mdcc.config.AppServerConfiguration;
@@ -12,13 +22,6 @@ import edu.ucsb.cs.mdcc.messaging.AppServerServiceHandler;
 import edu.ucsb.cs.mdcc.messaging.MDCCAppServerService;
 import edu.ucsb.cs.mdcc.messaging.MDCCCommunicator;
 import edu.ucsb.cs.mdcc.messaging.ReadValue;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.thrift.server.TNonblockingServer;
-import org.apache.thrift.server.TServer;
-import org.apache.thrift.transport.TNonblockingServerSocket;
-import org.apache.thrift.transport.TNonblockingServerTransport;
-import org.apache.thrift.transport.TTransportException;
 
 public class AppServer implements AppServerService {
 
@@ -129,6 +132,7 @@ public class AppServer implements AppServerService {
     }
 	
 	public static void main(String[] args) {
+//		Logger.getRootLogger().setLevel(Level.DEBUG);
 		final AppServer server = new AppServer();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override

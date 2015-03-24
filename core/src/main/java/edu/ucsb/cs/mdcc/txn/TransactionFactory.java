@@ -13,15 +13,17 @@ public class TransactionFactory {
     private AppServerService appServer;
 
     public TransactionFactory() {
-        AppServerConfiguration config = AppServerConfiguration.getConfiguration();
-        if (config.getAppServerUrl() == null) {
-            this.local = true;
-            this.appServer = new AppServer();
-        } else {
-        	String appServerURL = config.getAppServerUrl();
-        	Member appServerMember = new Member(appServerURL, "AppServer", false);
-        	this.appServer = new RemoteAppServer(appServerMember);
-        }
+//        AppServerConfiguration config = AppServerConfiguration.getConfiguration();
+		this.local = true;
+		this.appServer = new AppServer();
+//        if (config.getAppServerUrl() == null) {
+//            this.local = true;
+//            this.appServer = new AppServer();
+//        } else {
+//        	String appServerURL = config.getAppServerUrl();
+//        	Member appServerMember = new Member(appServerURL, "AppServer", false);
+//        	this.appServer = new RemoteAppServer(appServerMember);
+//        }
     }
 
     public Transaction create() {

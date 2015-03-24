@@ -18,11 +18,13 @@ public class MDCCCommunicationServiceHandler implements Iface {
         this.agent = agent;
     }
 
+    @Override
 	public boolean ping() throws TException {
 		System.out.println("received ping");
 		return true;
 	}
 
+	@Override
 	public boolean prepare(String key, BallotNumber ballot, long classicEndVersion)
 			throws TException {
 		edu.ucsb.cs.mdcc.paxos.Prepare prepare = new edu.ucsb.cs.mdcc.paxos.Prepare(
@@ -30,19 +32,23 @@ public class MDCCCommunicationServiceHandler implements Iface {
 		return agent.onPrepare(prepare);
 	}
 
+	@Override
 	public void decide(String transaction, boolean commit) throws TException {
 		agent.onDecide(transaction, commit);
 	}
 
+	@Override
 	public ReadValue read(String key) throws TException {
 		return agent.onRead(key);
 	}
 
+	@Override
 	public boolean accept(Accept a) throws TException {
 		edu.ucsb.cs.mdcc.paxos.Accept accept = toPaxosAccept(a);
 		return agent.onAccept(accept);
 	}
 	
+	@Override
 	public List<Boolean> bulkAccept(List<Accept> accepts) throws TException {
 		List<Boolean> responses = new ArrayList<Boolean>(accepts.size());
 		for (Accept accept : accepts) {
@@ -56,6 +62,7 @@ public class MDCCCommunicationServiceHandler implements Iface {
 		return agent.onRecover(versions);
 	}
 
+	@Override
 	public boolean runClassic(String transaction, String key, long oldVersion,
 			ByteBuffer newValue) throws TException {
         ByteBuffer slice = newValue.slice();
@@ -64,6 +71,7 @@ public class MDCCCommunicationServiceHandler implements Iface {
 		return agent.runClassic(transaction, key, oldVersion, data);
 	}
 
+	
     private edu.ucsb.cs.mdcc.paxos.BallotNumber toPaxosBallot(BallotNumber b) {
         return new edu.ucsb.cs.mdcc.paxos.BallotNumber(b.getNumber(), b.getProcessId());
     }

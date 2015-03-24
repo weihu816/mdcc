@@ -31,9 +31,9 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
     private static final String ELECTION_NODE = "/ELECTION_";
 
     private ExecutorService zkService;
-    //private HBaseServer hbaseServer;
+    // private HBaseServer hbaseServer;
     private ZooKeeper zkClient;
-    private final Map<String,Member> leaders = new ConcurrentHashMap<String, Member>();
+    private final Map<String, Member> leaders = new ConcurrentHashMap<String, Member>();
 
     public void start() {
         Properties properties = new Properties();
@@ -41,28 +41,27 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
         File configFile = new File(configPath, "zk.properties");
         try {
             properties.load(new FileInputStream(configFile));
-            String dataPath = properties.getProperty("mdcc.zk.dir", "zk");
+//            String dataPath = properties.getProperty("mdcc.zk.dir", "zk");
             int myId = MDCCConfiguration.getConfiguration().getMyId();
             Utils.incrementPort(properties, "clientPort", myId);
-
-            properties.setProperty("dataDir", dataPath);
-            QuorumPeerConfig config = new QuorumPeerConfig();
-            config.parseProperties(properties);
-
-            ZKServer server = new ZKServer(config);
-            zkService = Executors.newSingleThreadExecutor(new ThreadFactory() {
-                public Thread newThread(Runnable r) {
-                    return new Thread(r, "zk-thread-pool");
-                }
-            });
-            zkService.submit(server);
-            log.info("ZooKeeper server started");
+//
+//            properties.setProperty("dataDir", dataPath);
+//            QuorumPeerConfig config = new QuorumPeerConfig();
+//            config.parseProperties(properties);
+//
+//            ZKServer server = new ZKServer(config);
+//            zkService = Executors.newSingleThreadExecutor(new ThreadFactory() {
+//                public Thread newThread(Runnable r) {
+//                    return new Thread(r, "zk-thread-pool");
+//                }
+//            });
+//            zkService.submit(server);
+//            log.info("ZooKeeper server started");
         } catch (IOException e) {
             handleException("Error loading the ZooKeeper configuration", e);
-        } catch (QuorumPeerConfig.ConfigException e) {
-            handleException("Error loading the ZooKeeper configuration", e);
+//        } catch (QuorumPeerConfig.ConfigException e) {
+//            handleException("Error loading the ZooKeeper configuration", e);
         }
-
         String connection = "localhost:" + properties.getProperty("clientPort");
         try {
             zkClient = new ZooKeeper(connection, 5000, this);
@@ -131,6 +130,7 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
         return leaders.get(key);
     }
 
+    @Override
     public void process(WatchedEvent event) {
         if (event.getType() == Event.EventType.None) {
             handleNoneEvent(event);
@@ -140,6 +140,7 @@ public abstract class Agent implements Watcher, AsyncCallback.ChildrenCallback, 
         }
     }
 
+    @Override
     public void processResult(int code, String path, Object o, List<String> children) {
         if (code != KeeperException.Code.OK.intValue()) {
             log.error("Unexpected response code from ZooKeeper server");
